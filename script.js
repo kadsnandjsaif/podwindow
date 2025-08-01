@@ -166,7 +166,7 @@ document.querySelector('.header-content-phone').addEventListener('click', functi
     window.location.href = 'tel:+78005005231';
 });
 
-// Interactive Slider Class (Fixed mobile scrolling)
+// Interactive Slider Class (Simplified)
 class InteractiveSlider {
     constructor(containerId, backgroundId) {
         this.container = document.getElementById(containerId);
@@ -176,7 +176,6 @@ class InteractiveSlider {
         this.autoSliderInterval = null;
         this.isInViewport = false;
         this.defaultBackground = 'images/Rectangle 30.png';
-        this.isHovering = false;
         this.clickedCard = null;
         this.isMobile = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
         
@@ -186,53 +185,44 @@ class InteractiveSlider {
     init() {
         this.updateBackground(this.defaultBackground);
         
-        // Add mouse wheel scrolling for desktop
+        // Simple mouse wheel scrolling for desktop
         if (!this.isMobile && this.container) {
             this.container.addEventListener('wheel', (e) => {
                 e.preventDefault();
                 this.container.scrollLeft += e.deltaY;
-            }, { passive: false });
+            });
         }
         
+        // Scroll to start to ensure first card is visible
+        setTimeout(() => {
+            if (this.container) {
+                this.container.scrollLeft = 0;
+            }
+        }, 100);
+        
         this.cards.forEach((card, index) => {
-            // Only add hover events for desktop
+            // Desktop hover events
             if (!this.isMobile) {
-                card.addEventListener('mouseenter', (e) => {
+                card.addEventListener('mouseenter', () => {
                     if (this.clickedCard === null) {
                         this.previewCard(index);
                     }
                 });
                 
-                card.addEventListener('mouseleave', (e) => {
+                card.addEventListener('mouseleave', () => {
                     if (this.clickedCard === null) {
                         this.resetPreview();
                     }
                 });
             }
             
-            // Click events for both desktop and mobile
-            card.addEventListener('click', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
+            // Simple click for all devices
+            card.addEventListener('click', () => {
                 this.selectCard(index);
             });
-            
-            // Touch events for mobile only
-            if (this.isMobile) {
-                card.addEventListener('touchstart', (e) => {
-                    // Don't prevent default to allow scrolling
-                    e.stopPropagation();
-                }, { passive: true });
-                
-                card.addEventListener('touchend', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    this.selectCard(index);
-                }, { passive: false });
-            }
         });
         
-        // Click outside to deselect (only for desktop)
+        // Click outside to deselect (desktop only)
         if (!this.isMobile) {
             document.addEventListener('click', (e) => {
                 if (!this.container.contains(e.target)) {
@@ -350,7 +340,7 @@ class InteractiveSlider {
     }
 }
 
-// Accessories Slider Class (Fixed mobile scrolling)
+// Accessories Slider Class (Simplified)
 class AccessoriesSlider {
     constructor(containerId, backgroundId) {
         this.container = document.getElementById(containerId);
@@ -360,8 +350,7 @@ class AccessoriesSlider {
         this.autoSliderInterval = null;
         this.isInViewport = false;
         this.defaultBackground = 'images/Rectangle 30.png';
-        this.hoverBackground = 'sliders-images/Rectangle 7.png';
-        this.isHovering = false;
+        this.hoverBackground = 'sliders-images/Rectangle 16.png';
         this.clickedCard = null;
         this.isMobile = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
         
@@ -371,45 +360,36 @@ class AccessoriesSlider {
     init() {
         this.updateBackground(this.defaultBackground);
         
+        // Scroll to start to ensure first card is visible
+        setTimeout(() => {
+            if (this.container) {
+                this.container.scrollLeft = 0;
+            }
+        }, 100);
+        
         this.cards.forEach((card, index) => {
-            // Only add hover events for desktop
+            // Desktop hover events
             if (!this.isMobile) {
-                card.addEventListener('mouseenter', (e) => {
+                card.addEventListener('mouseenter', () => {
                     if (this.clickedCard === null) {
                         this.previewCard(index);
                     }
                 });
                 
-                card.addEventListener('mouseleave', (e) => {
+                card.addEventListener('mouseleave', () => {
                     if (this.clickedCard === null) {
                         this.resetPreview();
                     }
                 });
             }
             
-            // Click events for both desktop and mobile
-            card.addEventListener('click', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
+            // Simple click for all devices
+            card.addEventListener('click', () => {
                 this.selectCard(index);
             });
-            
-            // Touch events for mobile only
-            if (this.isMobile) {
-                card.addEventListener('touchstart', (e) => {
-                    // Don't prevent default to allow scrolling
-                    e.stopPropagation();
-                }, { passive: true });
-                
-                card.addEventListener('touchend', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    this.selectCard(index);
-                }, { passive: false });
-            }
         });
         
-        // Click outside to deselect (only for desktop)
+        // Click outside to deselect (desktop only)
         if (!this.isMobile) {
             document.addEventListener('click', (e) => {
                 if (!this.container.contains(e.target)) {
@@ -423,14 +403,24 @@ class AccessoriesSlider {
     
     previewCard(index) {
         this.setActiveCard(index);
-        this.updateBackground(this.hoverBackground);
+        const bgImage = this.cards[index].getAttribute('data-bg');
+        if (bgImage) {
+            this.updateBackground(bgImage);
+        } else {
+            this.updateBackground(this.hoverBackground);
+        }
         this.pauseAutoSlider();
     }
     
     resetPreview() {
         if (this.clickedCard !== null) {
             this.setActiveCard(this.clickedCard);
-            this.updateBackground(this.hoverBackground);
+            const bgImage = this.cards[this.clickedCard].getAttribute('data-bg');
+            if (bgImage) {
+                this.updateBackground(bgImage);
+            } else {
+                this.updateBackground(this.hoverBackground);
+            }
         } else {
             this.updateBackground(this.defaultBackground);
             this.resetAllCards();
@@ -443,7 +433,12 @@ class AccessoriesSlider {
     selectCard(index) {
         this.clickedCard = index;
         this.setActiveCard(index);
-        this.updateBackground(this.hoverBackground);
+        const bgImage = this.cards[index].getAttribute('data-bg');
+        if (bgImage) {
+            this.updateBackground(bgImage);
+        } else {
+            this.updateBackground(this.hoverBackground);
+        }
         this.pauseAutoSlider();
     }
     
@@ -482,14 +477,23 @@ class AccessoriesSlider {
     
     nextSlide() {
         if (this.clickedCard === null) {
-            const isDefault = this.background.style.backgroundImage.includes('Rectangle 30.png');
-            if (isDefault) {
-                this.updateBackground(this.hoverBackground);
-                this.setActiveCard(Math.floor(Math.random() * this.cards.length));
+            const randomIndex = Math.floor(Math.random() * this.cards.length);
+            const randomCard = this.cards[randomIndex];
+            const bgImage = randomCard.getAttribute('data-bg');
+            
+            this.setActiveCard(randomIndex);
+            if (bgImage) {
+                this.updateBackground(bgImage);
             } else {
-                this.updateBackground(this.defaultBackground);
-                this.resetAllCards();
+                this.updateBackground(this.hoverBackground);
             }
+            
+            setTimeout(() => {
+                if (this.clickedCard === null) {
+                    this.updateBackground(this.defaultBackground);
+                    this.resetAllCards();
+                }
+            }, 2000);
         }
     }
     

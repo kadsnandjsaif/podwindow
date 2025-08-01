@@ -19,6 +19,15 @@ body {
     line-height: 1.1;
 }
 
+/* Allow horizontal scroll for slider sections */
+.section--4 {
+    overflow: visible;
+}
+
+.section--6 {
+    overflow: visible;
+}
+
 /* Header Styles */
 .header {
     position: fixed;
@@ -373,11 +382,21 @@ body {
     margin-bottom: 40px;
 }
 
+/* Horizontal Slider Cards - Desktop */
 .slider-cards {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    display: flex;
+    overflow-x: auto;
     gap: 20px;
-    justify-content: center;
+    padding: 20px 20px 20px 40px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.slider-cards::-webkit-scrollbar {
+    display: none;
 }
 
 /* Slider Cards */
@@ -397,6 +416,11 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    /* Flex properties for horizontal layout */
+    min-width: 180px;
+    width: 180px;
+    flex: none;
+    box-sizing: border-box;
 }
 
 .slider-card:hover,
@@ -405,6 +429,15 @@ body {
     opacity: 1;
     background: rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Ensure first and last cards are visible */
+.slider-card:first-child {
+    margin-left: 0;
+}
+
+.slider-card:last-child {
+    margin-right: 40px;
 }
 
 .card-image {
@@ -648,7 +681,7 @@ body {
 .faq-section {
     position: relative;
     height: auto;
-    min-height: auto;
+    min-height: 100vh;
     width: 100%;
     max-width: 1950px;
     margin: 0 auto;
@@ -692,6 +725,151 @@ body {
     flex-direction: column;
     justify-content: flex-start;
     height: auto;
+    overflow-y: auto;
+}
+
+/* Handle small screen heights */
+@media (max-height: 850px) {
+    .faq-section {
+        min-height: auto;
+        height: auto;
+        padding: 40px 20px;
+    }
+    
+    .faq-title {
+        font-size: 36px;
+        margin-bottom: 20px;
+    }
+    
+    .faq-container {
+        max-height: none;
+        height: auto;
+    }
+    
+    .faq-item {
+        margin-bottom: 8px;
+    }
+    
+    .faq-question {
+        padding: 12px 20px;
+    }
+    
+    .faq-number {
+        font-size: 14px;
+    }
+    
+    .faq-text {
+        font-size: 14px;
+    }
+    
+    .faq-answer {
+        padding: 0 20px;
+    }
+    
+    .faq-item.active .faq-answer {
+        padding: 0 20px 15px 20px;
+    }
+    
+    .faq-answer p {
+        font-size: 12px;
+        margin-bottom: 6px;
+    }
+    
+    .faq-answer h4 {
+        font-size: 13px;
+        margin: 8px 0 4px 0;
+    }
+    
+    .faq-answer ol li,
+    .faq-answer ul li {
+        font-size: 11px;
+        margin-bottom: 3px;
+    }
+}
+
+/* Handle very small screen heights */
+@media (max-height: 650px) {
+    .faq-section {
+        padding: 20px 15px;
+        min-height: auto;
+    }
+    
+    .faq-title {
+        font-size: 28px;
+        margin-bottom: 15px;
+    }
+    
+    .faq-item {
+        margin-bottom: 5px;
+    }
+    
+    .faq-question {
+        padding: 8px 15px;
+    }
+    
+    .faq-number {
+        font-size: 12px;
+    }
+    
+    .faq-text {
+        font-size: 12px;
+    }
+    
+    .faq-answer {
+        padding: 0 15px;
+    }
+    
+    .faq-item.active .faq-answer {
+        padding: 0 15px 10px 15px;
+    }
+    
+    .faq-answer p {
+        font-size: 11px;
+        margin-bottom: 4px;
+    }
+    
+    .faq-answer h4 {
+        font-size: 12px;
+        margin: 6px 0 3px 0;
+    }
+    
+    .faq-answer ol li,
+    .faq-answer ul li {
+        font-size: 10px;
+        margin-bottom: 2px;
+    }
+}
+
+/* Handle extremely small screen heights */
+@media (max-height: 500px) {
+    .faq-section {
+        padding: 10px;
+    }
+    
+    .faq-title {
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
+    
+    .faq-question {
+        padding: 6px 12px;
+    }
+    
+    .faq-number {
+        font-size: 10px;
+    }
+    
+    .faq-text {
+        font-size: 10px;
+    }
+    
+    .faq-answer p,
+    .faq-answer h4,
+    .faq-answer ol li,
+    .faq-answer ul li {
+        font-size: 9px;
+        margin-bottom: 2px;
+    }
 }
 
 .faq-item {
@@ -1241,10 +1419,7 @@ body {
         font-size: 14px;
     }
     
-    .slider-cards {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 25px;
-    }
+    /* Grid layout removed - using flex horizontal scroll */
     
     .slider-card {
         min-height: 260px;
@@ -1496,64 +1671,79 @@ body {
         font-size: 12px;
     }
     
-    /* Convert cards to horizontal swiper with hard transitions */
+    /* Convert cards to horizontal swiper - reliable approach */
     .slider-cards {
         display: flex;
-        overflow-x: scroll;
-        scroll-snap-type: x mandatory;
+        overflow-x: auto;
         gap: 20px;
-        padding: 20px 0;
+        padding: 20px 20px 20px 40px;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
         -ms-overflow-style: none;
-        scroll-behavior: smooth;
-        position: relative;
-        touch-action: pan-x;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    /* Remove pseudo-elements that might cause issues */
+    .slider-cards::before,
+    .slider-cards::after {
+        display: none;
     }
     
     .slider-cards::-webkit-scrollbar {
         display: none;
     }
     
+    /* Ensure proper width calculation */
     .slider-card {
-        min-width: 200px;
-        flex: 0 0 200px;
+        min-width: 180px;
+        width: 180px;
+        flex: none;
         min-height: 240px;
         padding: 20px 15px;
-        scroll-snap-align: start;
-        scroll-snap-stop: always;
         flex-direction: column;
         text-align: center;
         position: relative;
-        -webkit-transform: translateZ(0);
-        transform: translateZ(0);
         cursor: pointer;
+        transition: all 0.3s ease;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 15px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-sizing: border-box;
     }
     
-    /* Remove touch area enhancement for mobile */
-    @media (hover: hover) {
-        .slider-card::before {
-            content: '';
-            position: absolute;
-            top: -10px;
-            left: -10px;
-            right: -10px;
-            bottom: -10px;
-            z-index: 1;
-            pointer-events: none;
-        }
+    /* Remove problematic margins */
+    .slider-card:first-child {
+        margin-left: 0;
+    }
+    
+    .slider-card:last-child {
+        margin-right: 40px;
+    }
+    
+    .slider-card:hover,
+    .slider-card.active {
+        transform: scale(1.05);
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
     }
     
     .slider-card:active {
         transform: scale(0.98);
-        transition: transform 0.1s ease;
     }
     
     .card-image {
         width: 100%;
-        height: 130px;
+        height: 120px;
         margin-bottom: 15px;
-        margin-right: 0;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    
+    .card-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
     }
     
     .card-content {
@@ -1564,17 +1754,12 @@ body {
     }
     
     .card-title {
-        font-size: 15px;
+        font-family: 'Inter', sans-serif;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 120%;
+        color: #ffffff;
         margin: 0;
-    }
-    
-    /* Only disable pointer events on desktop with hover capability */
-    @media (hover: hover) {
-        .card-image,
-        .card-content,
-        .card-title {
-            pointer-events: none;
-        }
     }
     
     /* Simple offers mobile styles */
@@ -1831,63 +2016,38 @@ body {
     
     .slider-cards {
         gap: 15px;
-        padding: 15px 0;
-        scroll-behavior: smooth;
-        touch-action: pan-x;
+        padding: 15px 15px 15px 30px;
+    }
+    
+    /* Remove pseudo-elements for mobile */
+    .slider-cards::before,
+    .slider-cards::after {
+        display: none;
     }
     
     .slider-card {
-        min-width: 170px;
-        flex: 0 0 170px;
+        min-width: 160px;
+        width: 160px;
+        flex: none;
         min-height: 200px;
         padding: 15px 12px;
-        scroll-snap-align: start;
-        scroll-snap-stop: always;
-        position: relative;
-        -webkit-transform: translateZ(0);
-        transform: translateZ(0);
-        cursor: pointer;
     }
     
-    /* Remove touch area enhancement for mobile */
-    @media (hover: hover) {
-        .slider-card::before {
-            content: '';
-            position: absolute;
-            top: -8px;
-            left: -8px;
-            right: -8px;
-            bottom: -8px;
-            z-index: 1;
-            pointer-events: none;
-        }
+    .slider-card:first-child {
+        margin-left: 0;
     }
     
-    .slider-card:active {
-        transform: scale(0.98);
-        transition: transform 0.1s ease;
+    .slider-card:last-child {
+        margin-right: 30px;
     }
     
     .card-image {
-        height: 110px;
+        height: 100px;
         margin-bottom: 12px;
     }
     
-    .card-content {
-        /* Remove pointer-events: none for mobile */
-    }
-    
     .card-title {
-        font-size: 14px;
-    }
-    
-    /* Only disable pointer events on desktop with hover capability */
-    @media (hover: hover) {
-        .card-image,
-        .card-content,
-        .card-title {
-            pointer-events: none;
-        }
+        font-size: 13px;
     }
     
     .simple-offers {
@@ -2059,6 +2219,8 @@ body {
         font-size: 12px;
     }
 }
+
+
 
 
 
