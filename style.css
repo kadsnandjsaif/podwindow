@@ -37,7 +37,7 @@ body {
     z-index: 1000;
     background: rgba(0, 0, 0, 0);
     backdrop-filter: blur(3px);
-    padding: 20px 0;
+    padding: 30px 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -54,14 +54,13 @@ body {
 .logo {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 20px;
     margin-left: 40px;
 }
 
 .logo img {
-    
+    width: 168px;
     height: auto;
-
 }
 
 .logo-text {
@@ -677,11 +676,30 @@ body {
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
+/* FAQ Wrapper */
+.faq-wrapper {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+}
+
+.faq-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: -1;
+}
+
 /* FAQ Section */
 .faq-section {
     position: relative;
-    height: auto;
-    min-height: 100vh;
+    height: auto !important;
+    min-height: auto !important;
+    overflow: visible !important;
     width: 100%;
     max-width: 1950px;
     margin: 0 auto;
@@ -720,30 +738,20 @@ body {
 .faq-container {
     max-width: 940px;
     width: 100%;
-    flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    height: auto;
-    overflow-y: auto;
 }
 
 /* Handle small screen heights */
 @media (max-height: 850px) {
     .faq-section {
-        min-height: auto;
-        height: auto;
-        padding: 40px 20px;
+        padding: 20px 15px;
     }
     
     .faq-title {
-        font-size: 36px;
+        font-size: 32px;
         margin-bottom: 20px;
-    }
-    
-    .faq-container {
-        max-height: none;
-        height: auto;
     }
     
     .faq-item {
@@ -790,8 +798,7 @@ body {
 /* Handle very small screen heights */
 @media (max-height: 650px) {
     .faq-section {
-        padding: 20px 15px;
-        min-height: auto;
+        padding: 15px 10px;
     }
     
     .faq-title {
@@ -843,16 +850,16 @@ body {
 /* Handle extremely small screen heights */
 @media (max-height: 500px) {
     .faq-section {
-        padding: 10px;
+        padding: 10px 8px;
     }
     
     .faq-title {
-        font-size: 20px;
+        font-size: 24px;
         margin-bottom: 10px;
     }
     
     .faq-question {
-        padding: 6px 12px;
+        padding: 4px 8px;
     }
     
     .faq-number {
@@ -869,6 +876,55 @@ body {
     .faq-answer ul li {
         font-size: 9px;
         margin-bottom: 2px;
+    }
+}
+
+/* Handle extremely small mobile screens */
+@media (max-height: 400px) {
+    .faq-section {
+        padding: 8px 5px;
+    }
+    
+    .faq-title {
+        font-size: 20px;
+        margin-bottom: 8px;
+    }
+    
+    .faq-container {
+        gap: 5px;
+    }
+    
+    .faq-item {
+        margin-bottom: 2px;
+    }
+    
+    .faq-question {
+        padding: 2px 6px;
+    }
+    
+    .faq-number {
+        font-size: 8px;
+    }
+    
+    .faq-text {
+        font-size: 8px;
+    }
+    
+    .faq-answer {
+        padding: 0 6px;
+    }
+    
+    .faq-item.active .faq-answer {
+        padding: 0 6px 2px 6px;
+    }
+    
+    .faq-answer p,
+    .faq-answer h4,
+    .faq-answer ol li,
+    .faq-answer ul li {
+        font-size: 7px;
+        margin-bottom: 1px;
+        line-height: 1.2;
     }
 }
 
@@ -1538,7 +1594,8 @@ body {
     }
     
     .logo img {
-        width: 45px;
+        width: 147px;
+        max-width: none;
     }
     
     .logo-text {
@@ -1930,8 +1987,8 @@ body {
     }
 }
 
-/* Mobile Portrait (480px and below) */
-@media (max-width: 480px) {
+/* Mobile Portrait (650px and below) */
+@media (max-width: 650px) {
     .header-content img:first-child,
     .header-content img:nth-child(2) {
         display: none;
@@ -1942,7 +1999,7 @@ body {
     }
     
     .logo {
-        margin-left: 15px;
+        margin-left: 25px;
     }
     
     .header-content {
