@@ -175,7 +175,7 @@ class InteractiveSlider {
         this.currentIndex = -1;
         this.autoSliderInterval = null;
         this.isInViewport = false;
-        this.defaultBackground = 'images/Rectangle 30.png';
+        this.defaultBackground = 'images/Rectangle 28.png';
         this.clickedCard = null;
         this.isMobile = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
         
@@ -315,10 +315,9 @@ class InteractiveSlider {
             
             setTimeout(() => {
                 if (this.clickedCard === null) {
-                    this.updateBackground(this.defaultBackground);
                     this.resetAllCards();
                 }
-            }, 2000);
+            }, 1500);
         }
     }
     
@@ -329,7 +328,7 @@ class InteractiveSlider {
         
         this.autoSliderInterval = setInterval(() => {
             this.nextSlide();
-        }, 8000);
+        }, 6000);
     }
     
     pauseAutoSlider() {
@@ -595,7 +594,7 @@ function initFAQAccordion() {
                 answer.style.padding = '0 25px';
             } else {
                 item.classList.add('active');
-                answer.style.maxHeight = answer.scrollHeight + 'px';
+                
                 answer.style.opacity = '1';
                 answer.style.padding = '0 25px 25px 25px';
                 
