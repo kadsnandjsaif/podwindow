@@ -595,8 +595,14 @@ function initFAQAccordion() {
             } else {
                 item.classList.add('active');
                 
+                // Reset max-height to auto to get the actual height
+                answer.style.maxHeight = 'none';
                 answer.style.opacity = '1';
                 answer.style.padding = '0 25px 25px 25px';
+                
+                // Get the actual height and set it
+                const actualHeight = answer.scrollHeight;
+                answer.style.maxHeight = actualHeight + 'px';
                 
                 // Scroll to question if needed
                 setTimeout(() => {
@@ -625,6 +631,13 @@ function initFAQAccordion() {
                     answer.style.padding = '0 18px 18px 18px';
                 } else {
                     answer.style.padding = '0 25px 25px 25px';
+                }
+                
+                // Update max-height after padding change
+                if (item.classList.contains('active')) {
+                    answer.style.maxHeight = 'none';
+                    const actualHeight = answer.scrollHeight;
+                    answer.style.maxHeight = actualHeight + 'px';
                 }
             } else {
                 if (isSmallMobile) {
